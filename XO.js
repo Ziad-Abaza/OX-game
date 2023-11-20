@@ -1,4 +1,3 @@
-window.onload=()=>{
     // تحديد متغيرات العناصر والحالة اللعبة
     let title = document.querySelector('.title'); // العنصر الذي يعرض حالة اللعبة
     let squares = []; // حالة الخانات
@@ -168,5 +167,3 @@ window.onload=()=>{
 
         return null;
     }
-
-}

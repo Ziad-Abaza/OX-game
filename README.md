@@ -27,7 +27,7 @@ This repository contains the implementation of a Tic Tac Toe game where players 
 
 ## Example of the Game
 
-![Tic Tac Toe](https://link-to-image.com)
+![Tic Tac Toe](https://github.com/Ziad-Abaza/tic_tac_toe/blob/main/screenshots/screenshot.jpeg)
 
 ## How to Contribute
 

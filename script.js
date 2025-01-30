@@ -14,7 +14,7 @@ function TheEnd(winner, winningLine) {
     });
     title.innerHTML = `<span>${winner}</span> winner!<span id="dots"></span>`;
   } else {
-    title.innerHTML = '<span id="dots"></span>';
+    title.innerHTML = 'Draws! <span id="dots"></span>';
   }
 
   let dots = 0;

@@ -19,8 +19,8 @@ This repository contains the implementation of a Tic Tac Toe game where players 
 ## Code Structure
 
 - `index.html`: Contains the HTML structure for the Tic Tac Toe grid and the game's title.
-- `XO.css`: The styling file that defines the appearance of the game grid and the layout.
-- `XO.js`: The JavaScript file containing the game logic including:
+- `styles.css`: The styling file that defines the appearance of the game grid and the layout.
+- `script.js`: The JavaScript file containing the game logic including:
   - Player moves
   - Checking for the winner
   - Handling game over scenarios

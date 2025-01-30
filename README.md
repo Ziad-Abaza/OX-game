@@ -1,48 +1,46 @@
-# Tic Tac Toe Game
+# Tic-Tac-Toe Game
 
-This repository contains the implementation of a Tic Tac Toe game where players can play with each other. The game allows a two-player mode with automated smart moves for player 'O'.
+## Overview
+This project is a simple Tic-Tac-Toe game implemented using HTML, CSS, and JavaScript. The game allows a user to play against an AI opponent that utilizes a deep learning model built with TensorFlow and Keras.
 
 ## Features
-
-- **Player 'X' and Player 'O' gameplay**: Players take turns marking their moves in the grid.
-- **Automatic moves for 'O'**: The 'O' player makes moves based on a simple strategy that aims to block 'X' or win the game.
-- **Game Over Detection**: The game checks for a winner after every move and announces the winner or a draw.
-- **Grid-based Game**: A 3x3 grid with clickable squares.
+- Player vs AI gameplay
+- AI is trained using deep learning techniques to make intelligent moves
+- Interactive UI with animations
+- Automatic game restart after 4 seconds when the game ends
+- Responsive design
 
 ## How to Play
+1. Open the game in a web browser.
+2. Click on an empty square to make a move ("X" player always starts first).
+3. The AI ("O") will respond with its move based on the trained deep learning model.
+4. The game continues until either player wins or the game ends in a draw.
+5. The winner's line turns green, and the game restarts after a short delay.
 
-1. Open the `index.html` file in your browser.
-2. The game will start with player 'X'.
-3. Click on any square to place your move (X or O).
-4. The game will continue until one player wins or the game ends in a draw.
+## Technologies Used
+- **HTML** for structure
+- **CSS** for styling and animations
+- **JavaScript** for game logic and AI integration
+- **TensorFlow.js** for running the trained AI model in the browser
+- **Keras** and **TensorFlow** for training the deep learning model
 
-## Code Structure
+## AI Model
+- The AI is trained using a deep neural network (DNN) to predict the best move.
+- The model is saved in `.h5` format and converted to a format compatible with TensorFlow.js for use in the browser.
+- The AI learns from thousands of Tic-Tac-Toe game states to improve its performance.
 
-- `index.html`: Contains the HTML structure for the Tic Tac Toe grid and the game's title.
-- `XO.css`: The styling file that defines the appearance of the game grid and the layout.
-- `XO.js`: The JavaScript file containing the game logic including:
-  - Player moves
-  - Checking for the winner
-  - Handling game over scenarios
+## Installation & Usage
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/tic-tac-toe-ai.git
+   ```
+2. Open `index.html` in a browser to play.
+3. If running locally with AI, ensure the TensorFlow.js model is properly loaded.
 
-## Example of the Game
-
-![Tic Tac Toe](https://link-to-image.com)
-
-## How to Contribute
-
-Feel free to fork the repository and contribute by improving the code or adding new features.
-
-## Contact
-
-For questions or feedback, reach out to:
-
-- **Ziad Hassan Abaza**  
-  - GitHub: [Ziad Abaza](https://github.com/Ziad-Abaza)  
-  - Email: [zeyad.h.abaza@gmail.com](mailto:zeyad.h.abaza@gmail.com)
-
----
+## Future Improvements
+- Enhance AI performance by training with reinforcement learning
+- Implement a difficulty selection for AI
+- Add multiplayer mode (online/local)
 
 ## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open-source and available under the MIT License.

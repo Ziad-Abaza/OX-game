@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X O</title>
-    <link rel="stylesheet" href="style.css">
+    <title>tic tac toe</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="title">
-        <span>X O </span>Game
-    </div>
-    <div class="game">
-        <div class="square" id="item1" onclick="game(this.id)"></div>
-        <div class="square" id="item2" onclick="game(this.id)"></div>
-        <div class="square" id="item3" onclick="game(this.id)"></div>
+    <div class="container">
+        <header class="header">
+            <div class="title">
+                <i class="fas fa-times-circle"></i>
+                <span>X O</span> Game
+                <i class="fas fa-circle"></i> 
+            </div>
+        </header>
+        <div class="game">
+            <div class="square" id="item1" onclick="game(this.id)"></div>
+            <div class="square" id="item2" onclick="game(this.id)"></div>
+            <div class="square" id="item3" onclick="game(this.id)"></div>
 
-        <div class="square" id="item4" onclick="game(this.id)"></div>
-        <div class="square" id="item5" onclick="game(this.id)"></div>
-        <div class="square" id="item6" onclick="game(this.id)"></div>
-        
-        <div class="square" id="item7" onclick="game(this.id)"></div>
-        <div class="square" id="item8" onclick="game(this.id)"></div>
-        <div class="square" id="item9" onclick="game(this.id)"></div>
+            <div class="square" id="item4" onclick="game(this.id)"></div>
+            <div class="square" id="item5" onclick="game(this.id)"></div>
+            <div class="square" id="item6" onclick="game(this.id)"></div>
+
+            <div class="square" id="item7" onclick="game(this.id)"></div>
+            <div class="square" id="item8" onclick="game(this.id)"></div>
+            <div class="square" id="item9" onclick="game(this.id)"></div>
+        </div>
+        <div class="status" id="status">Player X's turn</div>
     </div>
     <script src="script.js"></script>
-    </body>
+</body>
 </html>

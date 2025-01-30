@@ -1,169 +1,144 @@
-    // تحديد متغيرات العناصر والحالة اللعبة
-    let title = document.querySelector('.title'); // العنصر الذي يعرض حالة اللعبة
-    let squares = []; // حالة الخانات
-    let turn = 'X'; // دور اللاعب الحالي
-    let gameOver = false; // مؤشر لحالة انتهاء اللعبة
+let title = document.querySelector(".title");
+let squares = [];
+let turn = "X";
+let gameOver = false;
 
-    // دالة لعرض نهاية اللعبة
-    function TheEnd(num1, num2, num3) {
-        // عرض الفائز
-        title.innerHTML = `${squares[num1]} is the winner`;
-        // تغيير ألوان خلفية الخانات الفائزة
-        document.getElementById('item' + num1).style.backgroundColor = '#602019';
-        document.getElementById('item' + num2).style.backgroundColor = '#602019';
-        document.getElementById('item' + num3).style.backgroundColor = '#602019';
-        // تحديث العنوان بنقاط تتكرر كل ثانية
-        setInterval(function () {
-            title.innerHTML += '.';
-        }, 1000);
-        // إعادة تحميل الصفحة بعد 4 ثواني
-        setTimeout(function () {
-            location.reload();
-        }, 4000);
+function TheEnd(winner, winningLine) {
+  gameOver = true;
+
+  if (winner) {
+    winningLine.forEach((index) => {
+      let cell = document.getElementById(`item${index + 1}`);
+      cell.style.backgroundColor = "#4caf50";
+      cell.style.color = "#fff";
+    });
+    title.innerHTML = `<span>${winner}</span> winner!<span id="dots"></span>`;
+  } else {
+    title.innerHTML = '<span id="dots"></span>';
+  }
+
+  let dots = 0;
+  const dotInterval = setInterval(() => {
+    dots = (dots + 1) % 4;
+    document.getElementById("dots").textContent = ".".repeat(dots);
+  }, 1000);
+
+  setTimeout(() => {
+    location.reload();
+  }, 4000);
+}
+
+function winner() {
+  for (let i = 0; i < 9; i++) {
+    squares[i] = document.getElementById(`item${i + 1}`).textContent;
+  }
+
+  const winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (const combo of winCombos) {
+    const [a, b, c] = combo;
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      TheEnd(squares[a], combo);
+      return true;
     }
+  }
 
-    // دالة لفحص وجود فائز أو تعادل
-    function winner() {
-        let draw = true; // مؤشر للتعادل
+  if (squares.every((cell) => cell)) {
+    TheEnd(null);
+    return true;
+  }
 
-        // ملء المصفوفة squares بحالة الخانات
-        for (let i = 1; i < 10; i++) {
-            squares[i] = document.getElementById('item' + i).innerHTML;
-            if (squares[i] === '') {
-                draw = false; // إذا وجدت خانة فارغة لم يحدث تعادل
-            }
-        }
+  return false;
+}
 
-        // مجموعات الفوز الممكنة
-        const winningCombinations = [
-            [1, 2, 3], [4, 5, 6], [7, 8, 9],
-            [1, 4, 7], [2, 5, 8], [3, 6, 9],
-            [1, 5, 9], [3, 5, 7]
-        ];
+function game(cellId) {
+  if (gameOver || turn !== "X") return;
 
-        // التحقق من وجود فائز باستخدام مجموعات الفوز الممكنة
-        for (const combo of winningCombinations) {
-            const [a, b, c] = combo;
-            if (squares[a] === squares[b] && squares[b] === squares[c] && squares[a] !== '') {
-                gameOver = true; // إذا وجدنا فائز
-                TheEnd(a, b, c); // استدعاء دالة نهاية اللعبة
-            }
-        }
+  const cell = document.getElementById(cellId);
+  if (cell.textContent !== "") return;
 
-        // إذا لم يحدث فوز والمباراة لم تنتهي، سيتم عرض تعادل
-        if (draw && !gameOver) {
-            title.innerHTML = "It's a Draw!";
-            setInterval(function () {
-                title.innerHTML += '.';
-            }, 1000);
-            setTimeout(function () {
-                location.reload();
-            }, 4000);
-        }
+  cell.textContent = "X";
+  if (winner()) return;
+
+  turn = "O";
+  setTimeout(makeRandomMoveForO, 500);
+}
+
+function makeRandomMoveForO() {
+  if (gameOver) return;
+
+  const strategicCombo = findStrategicCombination();
+  if (strategicCombo) {
+    playStrategicMove(strategicCombo);
+  } else {
+    playRandomMove();
+  }
+
+  if (winner()) return;
+  turn = "X";
+}
+
+function findStrategicCombination() {
+  const winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (const combo of winCombos) {
+    const [a, b, c] = combo;
+    const oCount = [squares[a], squares[b], squares[c]].filter(
+      (x) => x === "O"
+    ).length;
+    const empty = combo.filter((i) => !squares[i]).length;
+    if (oCount === 2 && empty === 1) return combo;
+  }
+
+  for (const combo of winCombos) {
+    const [a, b, c] = combo;
+    const xCount = [squares[a], squares[b], squares[c]].filter(
+      (x) => x === "X"
+    ).length;
+    const empty = combo.filter((i) => !squares[i]).length;
+    if (xCount === 2 && empty === 1) return combo;
+  }
+
+  return null;
+}
+
+function playStrategicMove(combo) {
+  for (const index of combo) {
+    const cell = document.getElementById(`item${index + 1}`);
+    if (!cell.textContent) {
+      cell.textContent = "O";
+      break;
     }
+  }
+}
 
-    // دالة تنفيذ اللعبة عند النقر على الخانة
-    function game(id) {
-        let element = document.getElementById(id);
-        if (element.innerHTML === '' && !gameOver && turn === 'X') {
-            element.innerHTML = 'X';
-            turn = 'O'; // تحديث دور اللاعب
+function playRandomMove() {
+  const emptyCells = [];
+  for (let i = 0; i < 9; i++) {
+    if (!squares[i]) emptyCells.push(i);
+  }
 
-            // تأخير تنفيذ حركة اللاعب O وتحديث دور اللاعب
-            setTimeout(() => {
-                makeRandomMoveForO();
-                turn = 'X'; // تحديث دور اللاعب بعد حركة اللاعب O
-            }, 500);
-        }
-
-        winner(); // فحص الفوز بعد تنفيذ الحركة
-    }
-
-    // دالة لتنفيذ استراتيجية اللعب الذكية للاعب O
-    function playBoot(first, second, third) {
-        let emptySquares = [];
-
-        // تحديد الخانات الفارغة من الثلاثة المختارة
-        if (squares[first] === '') {
-            emptySquares.push(first);
-        }
-        if (squares[second] === '') {
-            emptySquares.push(second);
-        }
-        if (squares[third] === '') {
-            emptySquares.push(third);
-        }
-
-        if (emptySquares.length > 0) {
-            // تنفيذ الحركة بناءً على استراتيجية الفوز
-            if (squares[first] === 'X' && squares[second] === 'X') {
-                playSquare(third);
-            }
-            else if (squares[second] === 'X' && squares[third] === 'X') {
-                playSquare(first);
-            }
-            else if (squares[first] === 'X' && squares[third] === 'X') {
-                playSquare(second);
-            }
-            else {
-                playRandomSquare(emptySquares);
-            }
-        }
-
-        winner();
-    }
-
-    // دالة للعب في خانة عشوائية من الخانات الفارغة
-    function playRandomSquare(emptySquares) {
-        let randomIndex = Math.floor(Math.random() * emptySquares.length);
-        let randomSquare = emptySquares[randomIndex];
-        playSquare(randomSquare);
-    }
-
-    // دالة لتنفيذ الحركة في خانة محددة
-    function playSquare(square) {
-        document.getElementById('item' + square).innerHTML = 'O';
-        squares[square] = 'O';
-    }
-
-    // دالة لتنفيذ حركة عشوائية للاعب O
-    function makeRandomMoveForO() {
-        let emptySquares = [];
-
-        for (let i = 1; i < 10; i++) {
-            if (squares[i] === '') {
-                emptySquares.push(i);
-            }
-        }
-
-        if (emptySquares.length > 0) {
-            let strategicCombination = findStrategicCombination();
-            if (strategicCombination) {
-                playBoot(strategicCombination[0], strategicCombination[1], strategicCombination[2]);
-            } else {
-                playRandomSquare(emptySquares);
-            }
-        }
-
-        winner();
-    }
-
-    // دالة للبحث عن استراتيجية الفوز الممكنة
-    function findStrategicCombination() {
-        const strategicCombinations = [
-            [1, 2, 3], [4, 5, 6], [7, 8, 9],
-            [1, 4, 7], [2, 5, 8], [3, 6, 9],
-            [1, 5, 9], [3, 5, 7]
-        ];
-
-        for (const combo of strategicCombinations) {
-            const [a, b, c] = combo;
-            if ((squares[a] === 'X' && squares[b] === 'X' && squares[c] === '') ||
-                (squares[a] === 'X' && squares[b] === '' && squares[c] === 'X') ||
-                (squares[a] === '' && squares[b] === 'X' && squares[c] === 'X')) {
-                return combo;
-            }
-        }
-
-        return null;
-    }
+  if (emptyCells.length) {
+    const randomIndex =
+      emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    document.getElementById(`item${randomIndex + 1}`).textContent = "O";
+  }
+}

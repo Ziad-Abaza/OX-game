@@ -2,6 +2,17 @@ let title = document.querySelector(".title");
 let squares = [];
 let turn = "X";
 let gameOver = false;
+// Just make it globally available ;)
+const winCombos = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 function TheEnd(winner, winningLine) {
   gameOver = true;
@@ -18,7 +29,8 @@ function TheEnd(winner, winningLine) {
   }
 
   let dots = 0;
-  const dotInterval = setInterval(() => {
+  // Cleaning unneeded memory storage
+  setInterval(() => {
     dots = (dots + 1) % 4;
     document.getElementById("dots").textContent = ".".repeat(dots);
   }, 1000);
@@ -32,17 +44,6 @@ function winner() {
   for (let i = 0; i < 9; i++) {
     squares[i] = document.getElementById(`item${i + 1}`).textContent;
   }
-
-  const winCombos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
 
   for (const combo of winCombos) {
     const [a, b, c] = combo;
@@ -88,16 +89,6 @@ function makeRandomMoveForO() {
 }
 
 function findStrategicCombination() {
-  const winCombos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
 
   for (const combo of winCombos) {
     const [a, b, c] = combo;
